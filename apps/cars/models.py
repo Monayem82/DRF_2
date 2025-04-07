@@ -1,4 +1,19 @@
 from django.db import models
+from rest_framework import serializers
+
+
+
+class ShowroomModel(models.Model):
+    name=models.CharField(max_length=30)
+    location=models.CharField(max_length=100)
+    webside=models.URLField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+# def isAlphanumeric(value):
+#     if value not in value
+
 
 class CarModel(models.Model):
     model_no=models.CharField(max_length=4)

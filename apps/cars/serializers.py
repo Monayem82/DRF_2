@@ -1,6 +1,13 @@
 from rest_framework import serializers
 
-from apps.cars.models import CarModel
+from apps.cars.models import CarModel,ShowroomModel
+
+
+class ShowroomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=ShowroomModel
+        fields="__all__"
+
 
 class CarModelSerializer(serializers.ModelSerializer):
     discounted_price=serializers.SerializerMethodField()
