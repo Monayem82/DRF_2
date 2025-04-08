@@ -3,12 +3,6 @@ from rest_framework import serializers
 from apps.cars.models import CarModel,ShowroomModel
 
 
-class ShowroomSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=ShowroomModel
-        fields="__all__"
-
-
 class CarModelSerializer(serializers.ModelSerializer):
     discounted_price=serializers.SerializerMethodField()
     class Meta:
@@ -30,3 +24,25 @@ class CarModelSerializer(serializers.ModelSerializer):
         if data['name'] == data['model_no']:
             raise serializers.ValidationError("Error : name and Model_no Must be deffirent")
         return data
+    
+
+class ShowroomSerializer(serializers.ModelSerializer):
+    #showrooms=CarModelSerializer(many=True,read_only=True)
+    #showrooms= serializers.StringRelatedField(many=True) #model a str function a je fields deya setai dibe
+    #showrooms=serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
+    # showrooms = serializers.HyperlinkedRelatedField(
+    #     many=True,
+    #     read_only=True,
+    #     view_name='car_details_view'
+    # )
+
+    showrooms = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field='descripe'
+     )
+    
+    class Meta:
+        model=ShowroomModel
+        fields="__all__"

@@ -1,5 +1,6 @@
 from django.db import models
 from rest_framework import serializers
+from django.core.validators import MaxValueValidator,MinValueValidator
 
 
 
@@ -20,9 +21,20 @@ class CarModel(models.Model):
     name=models.CharField(max_length=20)
     descripe=models.TextField(max_length=50)
     price = models.DecimalField(max_digits=8,decimal_places=2,null=True,blank=True)
+    showroom=models.ForeignKey(ShowroomModel,on_delete=models.CASCADE,null=True,related_name="showrooms")
     create_at=models.DateTimeField(auto_now_add=True)
     updated_to=models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.name} - {self.model_no}"
+        #return f"{self.name} - {self.model_no}"
+        return self.name
+    
+
+class ReviewModel(models.Model):
+    star=models.IntegerField(validators=[MaxValueValidator,MinValueValidator])
+    comments=models.CharField(max_length=100)
+    car=models.ForeignKey(CarModel,on_delete=models.CASCADE,related_name="reviews")
+
+    def __str__(self):
+        return self.comments
 

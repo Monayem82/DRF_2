@@ -13,7 +13,7 @@ from rest_framework.decorators import api_view,APIView
 class ShowroomApiView(APIView):
     def get(self,request):
         showroom=ShowroomModel.objects.all()
-        serializer=ShowroomSerializer(showroom,many=True)
+        serializer=ShowroomSerializer(showroom,many=True,context={'request': request})
         return Response(serializer.data,status=status.HTTP_200_OK)
     
     def post(self,request):
@@ -24,6 +24,33 @@ class ShowroomApiView(APIView):
         else:
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
+
+class ShowroomApiDetailsView(APIView):
+    def get_object(self,pk):
+        try:
+            showroom=ShowroomModel.objects.get(pk=pk)
+            return showroom
+        except ShowroomModel.DoesNotExist:
+            raise Http404
+        
+    def get(self,request,pk):
+        showroom=self.get_object(pk=pk)
+        serializer=ShowroomSerializer(showroom)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    
+    def put(self,request,pk):
+        showroom=self.get_object(pk=pk)
+        serializer=ShowroomSerializer(showroom,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(self,request,pk):
+        showroom=self.get_object(pk=pk)
+        showroom.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 # def CarViews(request):
