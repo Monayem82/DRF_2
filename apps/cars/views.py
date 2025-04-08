@@ -1,12 +1,25 @@
 from django.shortcuts import render,HttpResponse,Http404
-from apps.cars.models import CarModel,ShowroomModel
+from apps.cars.models import CarModel,ShowroomModel,ReviewModel
 
-from apps.cars.serializers import CarModelSerializer,ShowroomSerializer
+from apps.cars.serializers import CarModelSerializer,ShowroomSerializer,ReviewSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view,APIView
 
 
+class ReviewApiview(APIView):
+    def get(self,request):
+        showroom=ReviewModel.objects.all()
+        serializer=ReviewSerializer(showroom,many=True,context={'request': request})
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    
+    def post(self,request):
+        serializer=ReviewSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
 

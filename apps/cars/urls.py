@@ -7,8 +7,11 @@ urlpatterns = [
     #Function based url
     #path('api/',views.carApiView),
     #path('api/<int:pk>',views.carDetailsView),
-    
+
     #Class based urls setup
+
+    path('review/api/',views.ReviewApiview.as_view(),name="reviews"),
+
     path('showroom/api/',views.ShowroomApiView.as_view(),name="showroomApi"),
     path('showroom/api/<int:pk>',views.ShowroomApiDetailsView.as_view(),name="showroomApiDetails"),
     
