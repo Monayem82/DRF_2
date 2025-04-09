@@ -6,6 +6,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view,APIView
 
+from rest_framework.authentication import BasicAuthentication
+from rest_framework.permissions import IsAuthenticated,IsAdminUser,IsAuthenticatedOrReadOnly
+
 
 class ReviewApiview(APIView):
     def get(self,request):
@@ -24,6 +27,9 @@ class ReviewApiview(APIView):
 
 
 class ShowroomApiView(APIView):
+    authentication_classes=[BasicAuthentication]
+    permission_classes=[IsAuthenticated]
+
     def get(self,request):
         showroom=ShowroomModel.objects.all()
         serializer=ShowroomSerializer(showroom,many=True,context={'request': request})
