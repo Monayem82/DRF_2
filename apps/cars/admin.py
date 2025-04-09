@@ -4,7 +4,7 @@ from apps.cars.models import CarModel,ShowroomModel,ReviewModel
 
 class CarModelAdmin(admin.ModelAdmin):
     list_display=['id','model_no','name','descripe','price','showroom','create_at','updated_to']
-    search_fields=['name']
+    search_fields=['name','showroom']
 
 admin.site.register(CarModel,CarModelAdmin)
 
