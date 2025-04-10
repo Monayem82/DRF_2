@@ -27,10 +27,11 @@ class ReviewApiview(APIView):
 
 
 class ShowroomApiView(APIView):
-    #authentication_classes=[BasicAuthentication]
+    # authentication_classes=[BasicAuthentication]
+    # authentication_classes=[SessionAuthentication]
     # permission_classes=[IsAuthenticated]
     #permission_classes=[AllowAny]
-    permission_classes=[IsAdminUser]
+    # permission_classes=[IsAdminUser]
     # permission_classes=[IsAuthenticatedOrReadOnly]
 
     def get(self,request):

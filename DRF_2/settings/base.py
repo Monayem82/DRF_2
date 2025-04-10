@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'rest_framework.authtoken',
 
     'apps.cars',
     'apps.api_confi',
@@ -126,11 +127,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',  # Session Authentication
         #'rest_framework.authentication.SessionAuthentication',  # Session Authentication
-        'rest_framework.authentication.BasicAuthentication',    # Basic Authentication
+        #'rest_framework.authentication.BasicAuthentication',    # Basic Authentication
     ],
     
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        #'rest_framework.permissions.IsAuthenticated',
     ]
 }
