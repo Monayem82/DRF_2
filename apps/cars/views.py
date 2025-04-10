@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view,APIView
 
-from rest_framework.authentication import BasicAuthentication
+from rest_framework.authentication import BasicAuthentication,SessionAuthentication,TokenAuthentication
 from rest_framework.permissions import IsAuthenticated,IsAdminUser,IsAuthenticatedOrReadOnly,AllowAny
 
 
@@ -27,10 +27,10 @@ class ReviewApiview(APIView):
 
 
 class ShowroomApiView(APIView):
-    authentication_classes=[BasicAuthentication]
+    #authentication_classes=[BasicAuthentication]
     # permission_classes=[IsAuthenticated]
     #permission_classes=[AllowAny]
-    # permission_classes=[IsAdminUser]
+    permission_classes=[IsAdminUser]
     # permission_classes=[IsAuthenticatedOrReadOnly]
 
     def get(self,request):

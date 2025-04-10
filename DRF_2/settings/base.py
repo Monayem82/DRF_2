@@ -129,4 +129,8 @@ REST_FRAMEWORK = {
         #'rest_framework.authentication.SessionAuthentication',  # Session Authentication
         'rest_framework.authentication.BasicAuthentication',    # Basic Authentication
     ],
+    
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
 }
