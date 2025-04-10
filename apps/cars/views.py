@@ -5,24 +5,41 @@ from apps.cars.serializers import CarModelSerializer,ShowroomSerializer,ReviewSe
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view,APIView
+from rest_framework import mixins,generics
 
 from rest_framework.authentication import BasicAuthentication,SessionAuthentication,TokenAuthentication
 from rest_framework.permissions import IsAuthenticated,IsAdminUser,IsAuthenticatedOrReadOnly,AllowAny
 
 
-class ReviewApiview(APIView):
+
+class ReviewApiview(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
+    queryset=ReviewModel.objects.all()
+    serializer_class=ReviewSerializer
+
     def get(self,request):
-        showroom=ReviewModel.objects.all()
-        serializer=ReviewSerializer(showroom,many=True,context={'request': request})
-        return Response(serializer.data,status=status.HTTP_200_OK)
+        return self.list(request)
     
     def post(self,request):
-        serializer=ReviewSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        return self.create(request)
+    
+class ReviewDetailsView(generics.RetrieveUpdateDestroyAPIView):
+    queryset =ReviewModel.objects.all()
+    serializer_class=ReviewSerializer
+    lookup_field='pk'
+
+# class ReviewApiview(APIView):
+#     def get(self,request):
+#         showroom=ReviewModel.objects.all()
+#         serializer=ReviewSerializer(showroom,many=True,context={'request': request})
+#         return Response(serializer.data,status=status.HTTP_200_OK)
+    
+#     def post(self,request):
+#         serializer=ReviewSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data,status=status.HTTP_201_CREATED)
+#         else:
+#             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
 

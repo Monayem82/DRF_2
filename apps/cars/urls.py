@@ -11,6 +11,7 @@ urlpatterns = [
     #Class based urls setup
 
     path('review/api/',views.ReviewApiview.as_view(),name="reviews"),
+    path('review/api/<int:pk>',views.ReviewDetailsView.as_view(),name="review"),
 
     path('showroom/api/',views.ShowroomApiView.as_view(),name="showroomApi"),
     path('showroom/api/<int:pk>',views.ShowroomApiDetailsView.as_view(),name="showroomApiDetails"),
