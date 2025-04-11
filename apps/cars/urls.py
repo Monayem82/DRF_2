@@ -1,5 +1,11 @@
-from django.urls import path
+from django.urls import path,include
 from apps.cars import views
+from rest_framework.routers import DefaultRouter
+
+
+
+router=DefaultRouter()
+router.register(r'api',views.CarApiViewsets,basename='users')
 
 urlpatterns = [
     #path('',views.CarViews,name="carViews"),
@@ -16,6 +22,11 @@ urlpatterns = [
     path('showroom/api/',views.ShowroomApiView.as_view(),name="showroomApi"),
     path('showroom/api/<int:pk>',views.ShowroomApiDetailsView.as_view(),name="showroomApiDetails"),
     
-    path('api/',views.carApiView.as_view(),name="car_list"),
-    path('api/<int:pk>',views.carApiDetailsView.as_view(),name="car_details_view")
+    # Viewsets in car Model
+    path('viewset/',include(router.urls)),
+
+    # path('api/',views.carApiView.as_view(),name="car_list"),
+    # path('api/<int:pk>',views.carApiDetailsView.as_view(),name="car_details_view")
 ]
+
+#urlpatterns +=urlpatterns+ router.urls

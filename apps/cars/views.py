@@ -5,7 +5,7 @@ from apps.cars.serializers import CarModelSerializer,ShowroomSerializer,ReviewSe
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view,APIView
-from rest_framework import mixins,generics
+from rest_framework import mixins,generics,viewsets
 
 from rest_framework.authentication import BasicAuthentication,SessionAuthentication,TokenAuthentication
 from rest_framework.permissions import IsAuthenticated,IsAdminUser,IsAuthenticatedOrReadOnly,AllowAny
@@ -93,6 +93,13 @@ class ShowroomApiDetailsView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class CarApiViewsets(viewsets.ModelViewSet):
+    queryset=CarModel.objects.all()
+    serializer_class=CarModelSerializer
+
+
+
+
 # def CarViews(request):
 #     return HttpResponse("<p>This is the tour </p>")
 
@@ -141,43 +148,44 @@ class ShowroomApiDetailsView(APIView):
 
 #Class based Views
 
-class carApiView(APIView):
-    def get(self,request):
-        car=CarModel.objects.all()
-        serializer=CarModelSerializer(car,many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+
+# class carApiView(APIView):
+#     def get(self,request):
+#         car=CarModel.objects.all()
+#         serializer=CarModelSerializer(car,many=True)
+#         return Response(serializer.data,status=status.HTTP_200_OK)
     
-    def post(self,request):
-        serializer=CarModelSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+#     def post(self,request):
+#         serializer=CarModelSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data,status=status.HTTP_201_CREATED)
+#         else:
+#             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         
-class carApiDetailsView(APIView):
-    def get_objects(self,pk):
-        try:
-            car=CarModel.objects.get(pk=pk)
-            return car
-        except CarModel.DoesNotExist:
-            raise Http404
-    def get(self,request,pk):
-        car=self.get_objects(pk=pk)
-        serializer=CarModelSerializer(car)
-        return Response(serializer.data,status=status.HTTP_200_OK)
+# class carApiDetailsView(APIView):
+#     def get_objects(self,pk):
+#         try:
+#             car=CarModel.objects.get(pk=pk)
+#             return car
+#         except CarModel.DoesNotExist:
+#             raise Http404
+#     def get(self,request,pk):
+#         car=self.get_objects(pk=pk)
+#         serializer=CarModelSerializer(car)
+#         return Response(serializer.data,status=status.HTTP_200_OK)
     
-    def put(self,request,pk):
-        car=self.get_objects(pk=pk)
-        serializer=CarModelSerializer(car,data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+#     def put(self,request,pk):
+#         car=self.get_objects(pk=pk)
+#         serializer=CarModelSerializer(car,data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data,status=status.HTTP_201_CREATED)
+#         else:
+#             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
         
-    def delete(self,request,pk):
-        car=self.get_objects(pk=pk)
-        car.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+#     def delete(self,request,pk):
+#         car=self.get_objects(pk=pk)
+#         car.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
     
