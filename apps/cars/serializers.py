@@ -5,6 +5,7 @@ from apps.cars.models import CarModel,ShowroomModel,ReviewModel
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    userapi=serializers.StringRelatedField(read_only=True)
     class Meta:
         model=ReviewModel
         exclude=('car',)

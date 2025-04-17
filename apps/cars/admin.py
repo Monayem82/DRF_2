@@ -14,7 +14,7 @@ class ShowroomModelAdmin(admin.ModelAdmin):
 admin.site.register(ShowroomModel,ShowroomModelAdmin)
 
 class ReviewModelAdmin(admin.ModelAdmin):
-    list_display=['star','comments','car']
+    list_display=['id','star','comments','car']
     search_fields=['star','car']
 
 admin.site.register(ReviewModel,ReviewModelAdmin)

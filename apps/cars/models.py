@@ -1,6 +1,7 @@
 from django.db import models
 from rest_framework import serializers
 from django.core.validators import MaxValueValidator,MinValueValidator
+from django.contrib.auth.models import User
 
 
 
@@ -31,9 +32,11 @@ class CarModel(models.Model):
     
 
 class ReviewModel(models.Model):
+    userapi=models.ForeignKey(User,on_delete=models.CASCADE)
     star=models.IntegerField(validators=[MaxValueValidator,MinValueValidator])
     comments=models.CharField(max_length=100)
     car=models.ForeignKey(CarModel,on_delete=models.CASCADE,related_name="reviews")
+
 
     def __str__(self):
         return self.comments
