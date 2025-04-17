@@ -7,7 +7,8 @@ from apps.cars.models import CarModel,ShowroomModel,ReviewModel
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model=ReviewModel
-        fields="__all__"
+        exclude=('car',)
+        #fields="__all__"
 
 class CarModelSerializer(serializers.ModelSerializer):
     discounted_price=serializers.SerializerMethodField()

@@ -11,10 +11,33 @@ from rest_framework.authentication import BasicAuthentication,SessionAuthenticat
 from rest_framework.permissions import IsAuthenticated,IsAdminUser,IsAuthenticatedOrReadOnly,AllowAny
 
 
+class ReviewsCreateView(generics.CreateAPIView):
+    serializer_class =ReviewSerializer
+
+    def perform_create(self, serializer):
+        pk=self.kwargs['pk']
+        cars=CarModel.objects.get(pk=pk)
+        try:
+            serializer.save(car=cars)
+        except cars.DoesNotExist:
+            raise NameError("this are not valid cars")
+
+class ReviewsListView(generics.ListAPIView):
+    serializer_class =ReviewSerializer
+
+    def get_queryset(self):
+        pk=self.kwargs['pk']
+        return ReviewModel.objects.filter(car=pk)
+
+class ReviewsdetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset=ReviewModel.objects.all()
+    serializer_class=ReviewSerializer
+
 
 class ReviewApiview(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
     queryset=ReviewModel.objects.all()
     serializer_class=ReviewSerializer
+    #lookup_field='pk'
 
     def get(self,request):
         return self.list(request)
