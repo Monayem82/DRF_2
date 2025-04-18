@@ -2,6 +2,8 @@ from django.shortcuts import render,HttpResponse,Http404
 from apps.cars.models import CarModel,ShowroomModel,ReviewModel
 
 from apps.cars.serializers import CarModelSerializer,ShowroomSerializer,ReviewSerializer
+from apps.cars.permissions import AdminOrReadOnlyReview,ReviewEditOrReadOnly
+
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view,APIView
@@ -32,6 +34,7 @@ class ReviewsListView(generics.ListAPIView):
 class ReviewsdetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset=ReviewModel.objects.all()
     serializer_class=ReviewSerializer
+    permission_classes=[ReviewEditOrReadOnly]
 
 
 class ReviewApiview(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
