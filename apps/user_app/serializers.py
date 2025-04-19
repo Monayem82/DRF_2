@@ -19,9 +19,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user_name=self.validated_data['username']
         val_email=self.validated_data['email']
         password=self.validated_data['password']
-        passwprd_confirmation=self.validated_data['password_confirmaton']
+        password_confirmation=self.validated_data['password_confirmaton']
 
-        if password !=passwprd_confirmation:
+        if password !=password_confirmation:
             raise serializers.ValidationError({'Error':'Password Dont match'})
         
         
