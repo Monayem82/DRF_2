@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view,APIView
 from rest_framework import mixins,generics,viewsets
+from rest_framework.exceptions import ValidationError
 
 from rest_framework.authentication import BasicAuthentication,SessionAuthentication,TokenAuthentication
 from rest_framework.permissions import IsAuthenticated,IsAdminUser,IsAuthenticatedOrReadOnly,AllowAny
@@ -19,6 +20,10 @@ class ReviewsCreateView(generics.CreateAPIView):
     def perform_create(self, serializer):
         pk=self.kwargs['pk']
         cars=CarModel.objects.get(pk=pk)
+        userEdit=self.request.user
+        user_queryset=ReviewModel.objects.filter(car=cars,userapi=userEdit)
+        if user_queryset.exists:
+            raise ValidationError("You have already reviewed in that car")
         try:
             serializer.save(car=cars)
         except cars.DoesNotExist:
@@ -34,6 +39,7 @@ class ReviewsListView(generics.ListAPIView):
 class ReviewsdetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset=ReviewModel.objects.all()
     serializer_class=ReviewSerializer
+    #authentication_classes=[TokenAuthentication]
     permission_classes=[ReviewEditOrReadOnly]
 
 
