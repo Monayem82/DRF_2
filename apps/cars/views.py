@@ -40,8 +40,8 @@ class ReviewsdetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset=ReviewModel.objects.all()
     serializer_class=ReviewSerializer
     #authentication_classes=[TokenAuthentication]
-    permission_classes=[ReviewEditOrReadOnly]
-
+    #permission_classes=[ReviewEditOrReadOnly]
+    permission_classes=[IsAuthenticated]
 
 class ReviewApiview(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
     queryset=ReviewModel.objects.all()
