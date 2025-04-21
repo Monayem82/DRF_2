@@ -9,6 +9,7 @@ urlpatterns =[
     path('register/',views.Registration_view,name='register'),
     path('logout/',views.DeleteUserToken,name='logout'),
 
+    #JWT Authenticaton path
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view,authentication_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
+from rest_framework_simplejwt.tokens import RefreshToken
 
 @api_view(['POST',])
 @authentication_classes([TokenAuthentication])
@@ -29,6 +30,11 @@ def Registration_view(request):
 
             # token,_=Token.objects.get_or_create(user=account)
             # data['token']=token.key
+            refresh = RefreshToken.for_user(account)
+            data['token']={
+                            'refresh': str(refresh),
+                            'access': str(refresh.access_token),
+                        }
             
             return Response(data)
 
