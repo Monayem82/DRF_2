@@ -19,9 +19,20 @@ def DeleteUserToken(request):
 def Registration_view(request):
     if request.method=="POST":
         serializer=RegistrationSerializer(data=request.data)
+        data={}
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+            account=serializer.save()
+
+            data['username']=account.username
+            data['email']=account.email
+            data['hi']=account.email
+
+            # token,_=Token.objects.get_or_create(user=account)
+            # data['token']=token.key
+            
+            return Response(data)
+
+            #return Response(serializer.data)
         else:
             return Response(serializer.errors)
     return Response({'Register Api':'Developer time'})

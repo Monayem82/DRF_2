@@ -5,11 +5,11 @@ from rest_framework.decorators import api_view
 from rest_framework.exceptions import ValidationError
 
 class RegistrationSerializer(serializers.ModelSerializer):
-    password_confirmaton=serializers.CharField(style={'input_type':'password'},write_only=True)
+    password_confirmation=serializers.CharField(style={'input_type':'password'},write_only=True)
 
     class Meta:
         model=User
-        fields=['username','email','password','password_confirmaton']
+        fields=['username','email','password','password_confirmation']
         extra_kwargs={
             'password':{'write_only':True},
             #'password_confirmaton':{'write_only':True},
@@ -19,7 +19,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user_name=self.validated_data['username']
         val_email=self.validated_data['email']
         password=self.validated_data['password']
-        password_confirmation=self.validated_data['password_confirmaton']
+        password_confirmation=self.validated_data['password_confirmation']
 
         if password !=password_confirmation:
             raise serializers.ValidationError({'Error':'Password Dont match'})
